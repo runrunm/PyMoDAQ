@@ -263,41 +263,37 @@ class ManagerBase(CustomExt):
                         kwargs={'setReadOnly': True})
         self.get_action_list().addItems(self.entries)
 
-        self.add_action(ManagerActions.COPY, f'Copy {self.entry_type.capitalize()}',
+        self.add_action(ManagerActions.COPY, f'Copy {self.entry_type}',
                         'file_copy')
         self.add_action(ManagerActions.NEW,
-                        f'New {self.entry_type.capitalize()}', 'add_circle',
+                        f'New {self.entry_type}', 'add',
                         tip=f'Create a new {self.entry_type} file ("Ctrl+N")',
-                        shortcut=QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_N),
-                        icon_color=self.get_theme().green,)
+                        shortcut=QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_N),)
         self.add_action(ManagerActions.DELETE,
-                        f'Delete {self.entry_type.capitalize()}', 'do_not_disturb_on',
+                        f'Delete {self.entry_type}', 'remove',
                         icon_color=self.get_theme().red,
-                        tip=f'Delete the current {self.entry_type.capitalize()} ("Ctrl+Delete")',
+                        tip=f'Delete the current {self.entry_type} ("Ctrl+Delete")',
                         shortcut=QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_Delete))
         self.add_action(ManagerActions.SAVE,
-                        f'Save {self.entry_type.capitalize()}', 'save_as',
+                        f'Save {self.entry_type}', 'save_as',
                         icon_color=self.get_theme().blue,
-                        tip=f'Save/Update the current {self.entry_type.capitalize()} ("Ctrl+S")',
+                        tip=f'Save/Update the current {self.entry_type} ("Ctrl+S")',
                         shortcut=QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_S))
         self.add_action(ManagerActions.RELOAD,
-                        f'Reload {self.entry_type.capitalize()}', 'refresh',
+                        f'Reload {self.entry_type}', 'refresh',
                         tip=f'Reload the current {self.entry_type} file ("Ctrl+Shift+R")',
                         icon_color=self.get_theme().orange,
                         shortcut=QKeySequence(Qt.Modifier.CTRL | Qt.Modifier.SHIFT | Qt.Key.Key_R))
         self.add_action(ManagerActions.EXECUTE,
-                        f'Execute {self.entry_type.capitalize()}', 'start',
+                        f'Execute {self.entry_type}', 'start',
                         icon_color=self.get_theme().magenta,
                         checkable=self.execute_action_checkable,
                         icon_checked_color=QtGui.QColor(255, 0, 201),
                         tip=f'Execute the current {self.entry_type} file ("Ctrl+Shift+E")',
                         shortcut=QKeySequence(Qt.Modifier.CTRL | Qt.Modifier.SHIFT | Qt.Key.Key_E))
-        self.add_action(ManagerActions.OPEN, f"{self.entry_type.capitalize()} Manager",
-                        "build_circle",
-                        icon_color=self.get_theme().blue,
-                        tip=f'Open the {self.entry_type.capitalize()} Manager',
+        self.add_action(ManagerActions.OPEN, f"{self.entry_type.capitalize()} manager",
+                        tip=f'Open {self.entry_type} manager',
                         checkable=True,
-                        icon_checked_color=self.get_theme().cyan,
                         auto_toolbar=False, auto_menu=False)
 
     def get_external_toolbar_menu(
