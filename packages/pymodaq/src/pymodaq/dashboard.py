@@ -220,8 +220,8 @@ class DashBoard(CustomApp, LECOComponentMixin):
         self.experiment_manager.applied_entry.connect(self.do_things_after_experiment_set)
         self.configurator = Configurator(dashboard=self)
         self.experiment_manager.get_external_toolbar_menu(toolbar=self.get_toolbar('experiment'),
-                                                          menu=self.get_menu('experiment'))
-        self.experiment_manager.update_menu(self.get_menu('experiment'))
+                                                          menu=self.get_menu('experiments'))
+        self.experiment_manager.update_menu(self.get_menu('experiments'))
         self.configurator.get_external_toolbar_menu(toolbar=self.get_toolbar('configurator'),
                                                     menu=self.get_menu('configurator'))
         self.configurator.update_menu(self.get_menu('configurator'))
@@ -462,18 +462,21 @@ class DashBoard(CustomApp, LECOComponentMixin):
         """
         Create the menubar object looking like :
         """
-        self.add_menu(MenuNames.FILE, 'File', menubar)
+        # File
+        self.add_menu(MenuNames.FILE, 'File', menu=menubar)
+        self.add_menu('experiments', 'Experiments', MenuNames.FILE)
 
-        self.add_menu(MenuNames.VIEW, 'View', menubar)
+        # View
+        self.add_menu(MenuNames.VIEW, 'View', menu=menubar)
 
-        self.add_menu('docked', 'Docked', MenuNames.VIEW)
+        self.add_menu('docked', 'Docked', menu=MenuNames.VIEW)
 
-        self.add_menu(MenuNames.TOOLS, 'Tools', menubar)
-        self.add_menu('experiment', 'Experiment', MenuNames.TOOLS, icon_name='experiment')
-        self.add_menu('configurator', 'Configurator', MenuNames.TOOLS, icon_name='discover_tune')
+        self.add_menu(MenuNames.TOOLS, 'Tools', menu=menubar)
+        
+        self.add_menu('configurator', 'Configurator', menu=MenuNames.TOOLS, icon_name='discover_tune')
         self.get_menu('configurator').setEnabled(False)
 
-        self.add_menu('overshooter', 'Overshooter', MenuNames.TOOLS, icon_name='security')
+        self.add_menu('overshooter', 'Overshooter', menu=MenuNames.TOOLS, icon_name='security')
         self.get_menu('overshooter').setEnabled(False)
 
         # self.roi_menu = self.add_menu('roi', 'ROI', auto_menu=False)
