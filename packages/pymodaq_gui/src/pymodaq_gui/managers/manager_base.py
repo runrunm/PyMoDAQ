@@ -566,9 +566,6 @@ class ManagerBase(CustomExt):
                 menu = self.get_menu(Menu.EXTERNAL)
             self.update_action_list()
             menu.clear()
-            menu.addAction(self.get_action(ManagerActions.OPEN))
-            menu.addSeparator()
-            load_menu = menu.addMenu(f"Load {self.entry_type.capitalize()}s")
 
             entries_path = self.list_managed_entries_path()
             entries_path.sort(key=lambda x: x.stem)
@@ -578,10 +575,15 @@ class ManagerBase(CustomExt):
 
             for ind_file, file in enumerate(entries_path):
                 if self.has_action(self.get_action_from_file(file)):
-                    load_menu.addAction(self.get_action(
+                    menu.addAction(self.get_action(
                         self.get_action_from_file(file)
                     )
                     )
+
+            menu.addSeparator()
+
+            menu.addAction(self.get_action(ManagerActions.OPEN))
+
         except AttributeError:  # means self.menu is not yet defined
             pass
 
