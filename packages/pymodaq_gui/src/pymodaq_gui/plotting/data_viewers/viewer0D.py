@@ -204,17 +204,8 @@ class View0D(ActionManager, QObject):
         self.get_action('Nhistory').setValue(200)  #default history length
 
     def setup_actions(self):
-        self.add_action('clear', 'Clear plot', 'clear2', 'Clear the current plots')
-        self.add_widget('Nhistory', pyqtgraph.SpinBox, tip='Set the history length of the plot',
-                        setters=dict(setMaximumWidth=100))
-        self.add_action('show_data_as_list', 'Show numbers', 'ChnNum', 'If triggered, will display last data as numbers'
-                                                                       'in a side panel', checkable=True)
-        self.add_action('show_min_max', 'Show Min/Max lines', 'Statistics',
-                        'If triggered, will display horizontal dashed lines for min/max of data', checkable=True)
-        self.add_action('sync_x_axis', 'Sync X axis', 'sync_disabled',
-                        'If checked, adding a new channel resets all histories so curves '
-                        'share the same x-axis origin', checkable=True, checked=True, icon_checked='sync_lock',
-                        icon_color='#F9A825', icon_checked_color='#607D8B')
+        self.add_action(short_name='show_num_data', name='Show numerical data', icon_name='right_panel_open', tip='Show numerical data',
+                        checkable=True, icon_checked='right_panel_close')
 
     def _setup_widgets(self):
         self.splitter = QtWidgets.QSplitter(Qt.Orientation.Vertical)
@@ -238,7 +229,7 @@ class View0D(ActionManager, QObject):
 
     def _connect_things(self):
         self.connect_action('clear', self.data_displayer.clear_data)
-        self.connect_action('show_data_as_list', self.show_data_list)
+        self.connect_action('show_num_data', self.show_data_list)
         self.connect_action('Nhistory', self.data_displayer.update_axis, signal_name='valueChanged')
         self.connect_action('show_min_max', self.data_displayer.show_min_max)
         self.connect_action('sync_x_axis', self.data_displayer.set_sync_x_axis)
@@ -260,14 +251,14 @@ class View0D(ActionManager, QObject):
             self.data_displayer.update_data(data)
         elif displayer in self.other_data_displayers:
             self.other_data_displayers[displayer].update_data(data)
-        if self.is_action_checked('show_data_as_list'):
+        if self.is_action_checked('show_num_data'):
             self.values_list.clear()
             self.values_list.addItems(['{:.03e}'.format(dat[0]) for dat in data])
             QtWidgets.QApplication.processEvents()
 
     def show_data_list(self, state=None):
         if state is None:
-            state = self.is_action_checked('show_data_as_list')
+            state = self.is_action_checked('show_num_data')
         self.values_list.setVisible(state)
 
     def add_data_displayer(self, displayer_name: str, plot_colors=PLOT_COLORS):
@@ -331,7 +322,7 @@ def main():
     y1 = gauss1D(x, 75, 25) + 0.1*np.random.rand(len(x))
     y2 = 0.7 * gauss1D(x, 120, 50, 2) + 0.2*np.random.rand(len(x))
     widget.show()
-    prog.get_action('show_data_as_list').trigger()
+    prog.get_action('show_num_data').trigger()
     for ind, data in enumerate(y1):
         prog.show_data(data_mod.DataRaw('mydata', data=[np.array([data]), np.array([y2[ind]])],
                                         labels=['lab1', 'lab2'], units="V"))
