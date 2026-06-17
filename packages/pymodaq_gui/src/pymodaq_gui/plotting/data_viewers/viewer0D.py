@@ -204,6 +204,12 @@ class View0D(ActionManager, QObject):
         self.get_action('Nhistory').setValue(200)  #default history length
 
     def setup_actions(self):
+        self.add_action(short_name='clear', name='Clear data', icon_name='delete', tip='Clear data')
+        self.add_widget(short_name='Nhistory', klass=pyqtgraph.SpinBox, tip='History length of the plot')
+        self.add_action(short_name='show_min_max', name='Show min/max lines', icon_name='density_large', tip='Display min/max limits',
+                        checkable=True)
+        self.add_action(short_name='sync_x_axis', name='Sync X axis', icon_name='lock', tip='Share x axis among channels',
+                        checkable=True, checked=True, icon_checked='lock_open_right')
         self.add_action(short_name='show_num_data', name='Show numerical data', icon_name='right_panel_open', tip='Show numerical data',
                         checkable=True, icon_checked='right_panel_close')
 
